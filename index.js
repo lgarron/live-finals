@@ -1,14 +1,27 @@
 "use strict";
 var $ = document.querySelector.bind(document);
 
-window.addEventListener("load", function() {
-  // var stackmat = new SmoothMat();
-
+function setupFlipping() {
+  if (localStorage.displayFlipped === "flipped") {
+    $("display").classList.add("flipped");
+  }
   $("#flip").addEventListener("click", function() {
-    $("display").classList.toggle("flipped");
+    if ($("display").classList.contains("flipped")) {
+      $("display").classList.remove("flipped");
+      localStorage.displayFlipped = "";
+    } else {
+      $("display").classList.add("flipped");
+      localStorage.displayFlipped = "flipped";
+    }
   })
+}
 
-  stackmat.setCallBack(function(state) {
+function setupTimer() {
+
+  var mat = stackmat;
+  mat = new SmoothMat();
+
+  mat.setCallBack(function(state) {
     $("#info").textContent = JSON.stringify(state, null, "  ");
     $("time").textContent = Stats.prototype.formatTime(state.time_milli);
     
@@ -40,5 +53,10 @@ window.addEventListener("load", function() {
       $("text").classList.add("hidden");
     }
   });
-  stackmat.init();
+  mat.init();
+}
+
+window.addEventListener("load", function() {
+  setupFlipping();
+  setupTimer();
 })

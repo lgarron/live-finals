@@ -5,18 +5,22 @@ var SmoothMat = function() {
   this.state = null;
   this.callback = function() {};
 
+
   this.animFrameActive = false;
   this.animFrame = function() {
     console.log("frame", this.state);
     if (this.state) {
       var time = this.state.time_milli;
       if (this.state.on && this.state.running) {
-        // time += Date.now() - this.stateTime - 100;
-        // if (time < 0) {
-        //   time = 0;
-        // }
+        time += Date.now() - this.stateTime - this.DELAY_MS;
+        if (time < 0) {
+          time = 0;
+        }
       }
-      this.callback(time);
+
+      var stateCopy = Object.assign({}, this.state);
+      stateCopy.time_milli = time;
+      this.callback(stateCopy);
 
       if (this.state.running) {
         requestAnimationFrame(this.animFrame);
@@ -28,7 +32,10 @@ var SmoothMat = function() {
 }
 
 SmoothMat.prototype = {
+  DELAY_MS: 100, // Avoids overshooting.
+
   init: stackmat.init,
+
   stop: function() {
     stackmat.stop();
     cancelAnimationFrame(this.animFrame)

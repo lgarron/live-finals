@@ -16,10 +16,11 @@
       <dot class="green"></dot>
     </dots>
   </timer>
-  <text class="">Lucas Garron - Solve 1</text>
+  <text class="" id="ttt">Lucas Garron - Solve 1</text>
 </display>
 <control>
   <button id="flip">Flip time position</button>
+  <input onchange="ttt.textContent = this.value" onkeyup="ttt.textContent = this.value" value="Lucas Garron - Solve 1">
   <pre id="info"></pre>
 </control>
 </body>

@@ -19,7 +19,7 @@ function setupFlipping() {
 function setupTimer() {
 
   var mat = stackmat;
-  mat = new SmoothMat();
+  // mat = new SmoothMat();
 
   mat.setCallBack(function(state) {
     $("#info").textContent = JSON.stringify(state, null, "  ");
